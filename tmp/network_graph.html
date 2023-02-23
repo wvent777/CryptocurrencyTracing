@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1000px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#7f66ff", "degree": 24, "font": {"color": "white"}, "id": "784a0", "label": "784a0", "shape": "dot", "size": 50, "title": "Degree: 24"}, {"color": "#f4d47c", "degree": 38, "font": {"color": "white"}, "id": "f85d8", "label": "f85d8", "shape": "dot", "size": 78, "title": "Degree: 38"}, {"color": "#7f66ff", "degree": 1, "font": {"color": "white"}, "id": "754d4", "label": "754d4", "shape": "dot", "size": 4, "title": "Degree: 1"}, {"color": "#7f66ff", "degree": 7, "font": {"color": "white"}, "id": "48d94", "label": "48d94", "shape": "dot", "size": 16, "title": "Degree: 7"}, {"color": "#7f66ff", "degree": 1, "font": {"color": "white"}, "id": "92951", "label": "92951", "shape": "dot", "size": 4, "title": "Degree: 1"}, {"color": "#7f66ff", "degree": 1, "font": {"color": "white"}, "id": "19cfd", "label": "19cfd", "shape": "dot", "size": 4, "title": "Degree: 1"}, {"color": "#7f66ff", "degree": 1, "font": {"color": "white"}, "id": "f1785", "label": "f1785", "shape": "dot", "size": 4, "title": "Degree: 1"}, {"color": "#7f66ff", "degree": 3, "font": {"color": "white"}, "id": "57028", "label": "57028", "shape": "dot", "size": 8, "title": "Degree: 3"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "blockNumber": "10777319", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2020-09-01 19:52:04", "title": "Amount (USD): $9589.32\nDate: 2020-09-01 19:52:04\nBlock Number: 10777319", "to": "f85d8", "value_usd": 9589.32, "width": 8.571428571428571}, {"arrows": "to", "blockNumber": "11257175", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2020-11-14 17:32:28", "title": "Amount (USD): $4794.66\nDate: 2020-11-14 17:32:28\nBlock Number: 11257175", "to": "f85d8", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "11577268", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-01-02 20:47:44", "title": "Amount (USD): $2237.508\nDate: 2021-01-02 20:47:44\nBlock Number: 11577268", "to": "f85d8", "value_usd": 2237.508, "width": 1.9999999999999996}, {"arrows": "to", "blockNumber": "11727032", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-01-25 20:24:39", "title": "Amount (USD): $1949.8284\nDate: 2021-01-25 20:24:39\nBlock Number: 11727032", "to": "f85d8", "value_usd": 1949.8284, "width": 1.7428571428571429}, {"arrows": "to", "blockNumber": "11785883", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-02-03 22:09:10", "title": "Amount (USD): $9293.6269089378\nDate: 2021-02-03 22:09:10\nBlock Number: 11785883", "to": "f85d8", "value_usd": 9293.6269089378, "width": 8.307122842857142}, {"arrows": "to", "blockNumber": "11873874", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-02-17 10:40:52", "title": "Amount (USD): $3823.5101994414003\nDate: 2021-02-17 10:40:52\nBlock Number: 11873874", "to": "f85d8", "value_usd": 3823.5101994414003, "width": 3.4176505285714285}, {"arrows": "to", "blockNumber": "12245959", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-04-15 17:17:32", "title": "Amount (USD): $4846.897261323001\nDate: 2021-04-15 17:17:32\nBlock Number: 12245959", "to": "f85d8", "value_usd": 4846.897261323001, "width": 4.332406642857143}, {"arrows": "to", "blockNumber": "12291217", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-04-22 16:53:57", "title": "Amount (USD): $8603.883519075\nDate: 2021-04-22 16:53:57\nBlock Number: 12291217", "to": "f85d8", "value_usd": 8603.883519075, "width": 7.690594642857142}, {"arrows": "to", "blockNumber": "12297089", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-04-23 14:50:11", "title": "Amount (USD): $2788.522633494\nDate: 2021-04-23 14:50:11\nBlock Number: 12297089", "to": "f85d8", "value_usd": 2788.522633494, "width": 2.4925252857142857}, {"arrows": "to", "blockNumber": "12343840", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-04-30 20:00:13", "title": "Amount (USD): $4310.9680985514\nDate: 2021-04-30 20:00:13\nBlock Number: 12343840", "to": "f85d8", "value_usd": 4310.9680985514, "width": 3.853365528571428}, {"arrows": "to", "blockNumber": "12368496", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-04 15:10:54", "title": "Amount (USD): $5873.987191176\nDate: 2021-05-04 15:10:54\nBlock Number: 12368496", "to": "f85d8", "value_usd": 5873.987191176, "width": 5.250472571428571}, {"arrows": "to", "blockNumber": "12381272", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-06 14:30:21", "title": "Amount (USD): $3257.3765485872\nDate: 2021-05-06 14:30:21\nBlock Number: 12381272", "to": "f85d8", "value_usd": 3257.3765485872, "width": 2.9116110857142856}, {"arrows": "to", "blockNumber": "12395939", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-08 20:51:18", "title": "Amount (USD): $2010.0091663314001\nDate: 2021-05-08 20:51:18\nBlock Number: 12395939", "to": "f85d8", "value_usd": 2010.0091663314001, "width": 1.7966498142857144}, {"arrows": "to", "blockNumber": "12400655", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-09 14:20:44", "title": "Amount (USD): $1739.8262236212\nDate: 2021-05-09 14:20:44\nBlock Number: 12400655", "to": "f85d8", "value_usd": 1739.8262236212, "width": 1.5551463714285712}, {"arrows": "to", "blockNumber": "12413441", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-11 13:39:46", "title": "Amount (USD): $2023.5513159108\nDate: 2021-05-11 13:39:46\nBlock Number: 12413441", "to": "f85d8", "value_usd": 2023.5513159108, "width": 1.8087544857142857}, {"arrows": "to", "blockNumber": "12420723", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-12 16:50:39", "title": "Amount (USD): $2701.9120231116003\nDate: 2021-05-12 16:50:39\nBlock Number: 12420723", "to": "f85d8", "value_usd": 2701.9120231116003, "width": 2.4151082571428573}, {"arrows": "to", "blockNumber": "12426608", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-13 14:40:56", "title": "Amount (USD): $2969.6045395068\nDate: 2021-05-13 14:40:56\nBlock Number: 12426608", "to": "f85d8", "value_usd": 2969.6045395068, "width": 2.6543856285714282}, {"arrows": "to", "blockNumber": "12433423", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-14 15:54:34", "title": "Amount (USD): $2438.0734064778003\nDate: 2021-05-14 15:54:34\nBlock Number: 12433423", "to": "f85d8", "value_usd": 2438.0734064778003, "width": 2.1792757000000003}, {"arrows": "to", "blockNumber": "12439931", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-15 16:00:39", "title": "Amount (USD): $2445.6678122916\nDate: 2021-05-15 16:00:39\nBlock Number: 12439931", "to": "f85d8", "value_usd": 2445.6678122916, "width": 2.1860639714285712}, {"arrows": "to", "blockNumber": "12524741", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-28 19:43:20", "title": "Amount (USD): $5559.6652957404\nDate: 2021-05-28 19:43:20\nBlock Number: 12524741", "to": "f85d8", "value_usd": 5559.6652957404, "width": 4.969515457142856}, {"arrows": "to", "blockNumber": "12543034", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-05-31 15:51:32", "title": "Amount (USD): $2184.5411192826\nDate: 2021-05-31 15:51:32\nBlock Number: 12543034", "to": "f85d8", "value_usd": 2184.5411192826, "width": 1.9526554714285713}, {"arrows": "to", "blockNumber": "12550789", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-06-01 20:31:30", "title": "Amount (USD): $3446.1355842810003\nDate: 2021-06-01 20:31:30\nBlock Number: 12550789", "to": "f85d8", "value_usd": 3446.1355842810003, "width": 3.080333642857143}, {"arrows": "to", "blockNumber": "12558651", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-06-03 01:41:17", "title": "Amount (USD): $3271.716881199\nDate: 2021-06-03 01:41:17\nBlock Number: 12558651", "to": "f85d8", "value_usd": 3271.716881199, "width": 2.9244292142857145}, {"arrows": "to", "blockNumber": "12561826", "color": "#03DAC6", "from": "784a0", "functionName": "", "timeStamp": "2021-06-03 13:29:55", "title": "Amount (USD): $2999.1779704224\nDate: 2021-06-03 13:29:55\nBlock Number: 12561826", "to": "f85d8", "value_usd": 2999.1779704224, "width": 2.6808198857142855}, {"arrows": "to", "blockNumber": "13144547", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2021-09-02 05:59:07", "title": "Amount (USD): $7991.1\nDate: 2021-09-02 05:59:07\nBlock Number: 13144547", "to": "754d4", "value_usd": 7991.1, "width": 7.142857142857143}, {"arrows": "to", "blockNumber": "13630768", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2021-11-17 04:14:41", "title": "Amount (USD): $6233.058\nDate: 2021-11-17 04:14:41\nBlock Number: 13630768", "to": "48d94", "value_usd": 6233.058, "width": 5.57142857142857}, {"arrows": "to", "blockNumber": "13982700", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-01-11 06:53:56", "title": "Amount (USD): $1598.22\nDate: 2022-01-11 06:53:56\nBlock Number: 13982700", "to": "48d94", "value_usd": 1598.22, "width": 1.4285714285714284}, {"arrows": "to", "blockNumber": "14177131", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-02-10 07:57:30", "title": "Amount (USD): $1598.22\nDate: 2022-02-10 07:57:30\nBlock Number: 14177131", "to": "48d94", "value_usd": 1598.22, "width": 1.4285714285714284}, {"arrows": "to", "blockNumber": "15410142", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-08-25 16:26:42", "title": "Amount (USD): $4794.66\nDate: 2022-08-25 16:26:42\nBlock Number: 15410142", "to": "48d94", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "15410142", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-08-25 16:26:42", "title": "Amount (USD): $4794.66\nDate: 2022-08-25 16:26:42\nBlock Number: 15410142", "to": "48d94", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "16425266", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2023-01-17 08:16:47", "title": "Amount (USD): $10580.216400000001\nDate: 2023-01-17 08:16:47\nBlock Number: 16425266", "to": "48d94", "value_usd": 10580.216400000001, "width": 9.457142857142857}, {"arrows": "to", "blockNumber": "16527947", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2023-01-31 16:17:23", "title": "Amount (USD): $11187.54\nDate: 2023-01-31 16:17:23\nBlock Number: 16527947", "to": "48d94", "value_usd": 11187.54, "width": 10.0}, {"arrows": "to", "blockNumber": "14157916", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-02-07 08:35:56", "title": "Amount (USD): $3196.44\nDate: 2022-02-07 08:35:56\nBlock Number: 14157916", "to": "92951", "value_usd": 3196.44, "width": 2.8571428571428568}, {"arrows": "to", "blockNumber": "14197145", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-02-13 10:03:36", "title": "Amount (USD): $4794.66\nDate: 2022-02-13 10:03:36\nBlock Number: 14197145", "to": "19cfd", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "14387279", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-03-14 21:53:39", "title": "Amount (USD): $4794.66\nDate: 2022-03-14 21:53:39\nBlock Number: 14387279", "to": "f1785", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "14620643", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-04-20 07:45:55", "title": "Amount (USD): $4794.66\nDate: 2022-04-20 07:45:55\nBlock Number: 14620643", "to": "57028", "value_usd": 4794.66, "width": 4.285714285714286}, {"arrows": "to", "blockNumber": "15205232", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-07-24 12:11:45", "title": "Amount (USD): $1598.22\nDate: 2022-07-24 12:11:45\nBlock Number: 15205232", "to": "57028", "value_usd": 1598.22, "width": 1.4285714285714284}, {"arrows": "to", "blockNumber": "15947691", "color": "#FF3F80", "from": "f85d8", "functionName": "", "timeStamp": "2022-11-11 15:32:47", "title": "Amount (USD): $3196.44\nDate: 2022-11-11 15:32:47\nBlock Number: 15947691", "to": "57028", "value_usd": 3196.44, "width": 2.8571428571428568}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "hierarchicalRepulsion": {
+            "centralGravity": 0.33,
+            "damping": 0.95,
+            "nodeDistance": 420,
+            "springConstant": 0.1,
+            "springLength": 110
+        },
+        "solver": "hierarchicalRepulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
